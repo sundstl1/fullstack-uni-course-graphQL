@@ -2,8 +2,9 @@ import { useState } from "react";
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
+import BirthYear from "./components/BirthYear";
 import { useQuery, useMutation } from "@apollo/client";
-import { ALL_AUTHORS, ALL_BOOKS, ADD_BOOK } from "./queries";
+import { ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, UPDATE_BORN } from "./queries";
 
 const App = () => {
   const [page, setPage] = useState("authors");
@@ -11,6 +12,9 @@ const App = () => {
   const books = useQuery(ALL_BOOKS);
   const [addBook] = useMutation(ADD_BOOK, {
     refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+  });
+  const [updateBorn] = useMutation(UPDATE_BORN, {
+    refetchQueries: [{ query: ALL_AUTHORS }],
   });
 
   return (
@@ -22,6 +26,11 @@ const App = () => {
       </div>
 
       <Authors show={page === "authors"} authors={authors} />
+      <BirthYear
+        show={page === "authors"}
+        updateBorn={updateBorn}
+        authors={authors}
+      />
 
       <Books show={page === "books"} books={books} />
 
