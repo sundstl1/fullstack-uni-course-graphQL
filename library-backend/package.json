@@ -20,7 +20,8 @@
   "homepage": "https://github.com/sundstl1/fullstack-uni-course-graphQL#readme",
   "dependencies": {
     "apollo-server": "^3.7.0",
-    "graphql": "^16.5.0"
+    "graphql": "^16.5.0",
+    "mongoose": "^6.3.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
