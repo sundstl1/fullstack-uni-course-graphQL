@@ -1,8 +1,14 @@
 const Authors = (props) => {
   if (!props.show) {
-    return null
+    return null;
   }
-  const authors = []
+  const authordata = props.authors ?? [];
+
+  if (authordata.loading) {
+    return <div>loading...</div>;
+  }
+
+  const authors = authordata.data.allAuthors;
 
   return (
     <div>
@@ -24,7 +30,7 @@ const Authors = (props) => {
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default Authors
+export default Authors;
