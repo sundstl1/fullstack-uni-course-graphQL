@@ -1,0 +1,28 @@
+{
+  "name": "fullstack-uni-course-graphql",
+  "version": "1.0.0",
+  "description": "GraphQL excercises for the fullstack uni course",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sundstl1/fullstack-uni-course-graphQL.git"
+  },
+  "author": "Linus Sundström",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sundstl1/fullstack-uni-course-graphQL/issues"
+  },
+  "homepage": "https://github.com/sundstl1/fullstack-uni-course-graphQL#readme",
+  "dependencies": {
+    "apollo-server": "^3.7.0",
+    "graphql": "^16.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
