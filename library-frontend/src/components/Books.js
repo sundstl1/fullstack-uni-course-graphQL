@@ -4,7 +4,11 @@ import { ALL_BOOKS, ALL_GENRES } from "../queries";
 const Books = (props) => {
   const params = { variables: { genre: null } };
   const { loading, error, data, refetch } = useQuery(ALL_BOOKS, params);
+
   const genresQuery = useQuery(ALL_GENRES);
+  if (!loading) {
+    console.log(data.allBooks.length);
+  }
   if (!props.show) {
     return null;
   }

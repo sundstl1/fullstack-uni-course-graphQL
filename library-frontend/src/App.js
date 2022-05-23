@@ -4,8 +4,21 @@ import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import Recommendations from "./components/Recommendations";
 import BirthYear from "./components/BirthYear";
-import { useQuery, useMutation, useApolloClient } from "@apollo/client";
-import { ALL_AUTHORS, ALL_GENRES, ADD_BOOK, UPDATE_BORN, ME } from "./queries";
+import {
+  useQuery,
+  useMutation,
+  useSubscription,
+  useApolloClient,
+} from "@apollo/client";
+import {
+  ALL_AUTHORS,
+  ALL_GENRES,
+  ADD_BOOK,
+  UPDATE_BORN,
+  ME,
+  BOOK_ADDED,
+  ALL_BOOKS,
+} from "./queries";
 import LoginForm from "./components/LoginForm";
 
 const App = () => {
@@ -15,8 +28,26 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [page, setPage] = useState("authors");
   const authors = useQuery(ALL_AUTHORS);
+  const books = useQuery(ALL_BOOKS);
   const client = useApolloClient();
   const me = useQuery(ME);
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const newBook = subscriptionData.data.bookAdded;
+      console.log("new book: ", newBook.title);
+      //alert(`new book with title ${newBook.title} added`);
+
+      client.cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+        console.log(allBooks);
+        console.log(newBook);
+        const updatedCache = allBooks.concat(newBook);
+        console.log(updatedCache);
+        return { allBooks: updatedCache };
+      });
+    },
+  });
+
   const [addBook] = useMutation(ADD_BOOK, {
     refetchQueries: [{ query: ALL_GENRES }, { query: ALL_AUTHORS }],
   });

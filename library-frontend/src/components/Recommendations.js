@@ -9,7 +9,6 @@ const Recommendations = (props) => {
     return <div>loading...</div>;
   }
   const genre = props.genre.data.me.favoriteGenre;
-  console.log(genre);
   refetch({ genre: genre });
 
   if (!props.show) {
@@ -17,10 +16,8 @@ const Recommendations = (props) => {
   }
 
   const bookData = data ?? [];
-  console.log(bookData);
 
   const books = bookData.allBooks;
-  console.log(books);
 
   return (
     <div>
