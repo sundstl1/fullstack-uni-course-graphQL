@@ -1,15 +1,36 @@
+import { useQuery } from "@apollo/client";
+import { ALL_BOOKS, ALL_GENRES } from "../queries";
+
 const Books = (props) => {
+  const params = { variables: { genre: null } };
+  const { loading, error, data, refetch } = useQuery(ALL_BOOKS, params);
+  const genresQuery = useQuery(ALL_GENRES);
   if (!props.show) {
     return null;
   }
 
-  const bookData = props.books ?? [];
+  const bookData = data ?? [];
 
-  if (bookData.loading) {
+  if (loading || genresQuery.loading) {
     return <div>loading...</div>;
   }
 
-  const books = bookData.data.allBooks;
+  const books = bookData.allBooks;
+
+  const onlyUnique = (value, index, self) => {
+    return self.indexOf(value) === index;
+  };
+
+  const mappedGenres = genresQuery.data.allBooks.map((b) => b.genres);
+  const genres = [].concat.apply([], mappedGenres).filter(onlyUnique);
+
+  const submit = async (genre) => {
+    console.log("filtering books...", genre);
+    params.variables = {
+      genre,
+    };
+    refetch({ genre: genre });
+  };
 
   return (
     <div>
@@ -25,12 +46,30 @@ const Books = (props) => {
           {books.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
-              <td>{a.author}</td>
+              <td>{a.author.name}</td>
               <td>{a.published}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      {genres.map((g) => (
+        <button
+          key={g}
+          onClick={() => {
+            submit(g);
+          }}
+        >
+          {g}
+        </button>
+      ))}
+      <button
+        key={"all genres"}
+        onClick={() => {
+          submit("");
+        }}
+      >
+        all genres
+      </button>
     </div>
   );
 };
