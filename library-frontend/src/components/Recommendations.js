@@ -7,7 +7,15 @@ const Recommendations = (props) => {
 
   if (props.genre.loading || loading) {
     return <div>loading...</div>;
-  }
+    }
+
+    if (!props.show) {
+        return null;
+    }
+
+    if (!props.genre.data.me) {
+        return <div>please log in!</div>;
+    }
   const genre = props.genre.data.me.favoriteGenre;
   refetch({ genre: genre });
 

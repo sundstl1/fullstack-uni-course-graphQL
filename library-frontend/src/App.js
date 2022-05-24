@@ -36,7 +36,7 @@ const App = () => {
     onSubscriptionData: ({ subscriptionData }) => {
       const newBook = subscriptionData.data.bookAdded;
       console.log("new book: ", newBook.title);
-      //alert(`new book with title ${newBook.title} added`);
+      alert(`new book with title ${newBook.title} added`);
 
       client.cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
         console.log(allBooks);
@@ -74,11 +74,13 @@ const App = () => {
     setToken(null);
     localStorage.clear();
     client.resetStore();
+    setPage("authors");
   };
 
   const loginAction = (token) => {
     setToken(token);
-    setPage("authors");
+      setPage("authors");
+      me.refetch()
   };
 
   return (
